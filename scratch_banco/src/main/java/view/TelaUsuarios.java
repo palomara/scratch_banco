@@ -31,7 +31,6 @@ public class TelaUsuarios extends JFrame {
 	JTextField txtEmail = new JTextField();
 	JLabel email = new JLabel("E-mail:");
 
-	/*JTextField txtSexo = new JTextField();*/
 	JLabel sexo = new JLabel("Sexo: ");
 	
 	JRadioButton rdbFeminino = new JRadioButton("Feminino");
@@ -39,19 +38,6 @@ public class TelaUsuarios extends JFrame {
 	
 	ButtonGroup btngSexo = new ButtonGroup();
 
-	
-
-	/*JCheckBox cbFeminino = new JCheckBox("Feminino");
-	JCheckBox cbMasculino = new JCheckBox ("Masculino");*/
-
-	
-	/*JRadioButton[] rdbsexo = new JRadioButton[2]; // botão para opçoes
-	ButtonGroup grupo = new ButtonGroup();
-	{ // group impede marcar mais de uma opçao no mesmo objeto
-
-		rdbsexo[0] = new JRadioButton("Feminino");
-		rdbsexo[1] = new JRadioButton("Masculino");
-	} // fechar chave nos groups
 
 	//MaskFormatter formatEmail = null;*/
 

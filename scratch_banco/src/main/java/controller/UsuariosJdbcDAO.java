@@ -84,4 +84,6 @@ public class UsuariosJdbcDAO {
 		return usuarios;
 	}
 	
+	
+	// list com id p/ usuários
 }
