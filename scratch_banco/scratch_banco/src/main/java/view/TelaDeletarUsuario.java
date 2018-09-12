@@ -19,7 +19,7 @@ import model.Usuarios;
 public class TelaDeletarUsuario extends JFrame {
 	
 	JTextField txtID = new JTextField();
-	JLabel lblID = new JLabel("ID Usuário: ");
+	JLabel lblID = new JLabel("ID: ");
 	
 	JTextField txtNome = new JTextField();
 	JLabel lblNome = new JLabel("Nome: ");

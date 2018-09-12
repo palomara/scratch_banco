@@ -52,17 +52,22 @@ public class TarefasJdbcDAO {
 		}
 	}
 	
-	public void select(int id) throws SQLException{
-		String sql = "select * from tarefas where idTarefa = "+id;	
-		PreparedStatement ps = this.conn.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-
-		ps.close();
+	public void selectTarefas (Tarefas idT) throws SQLException {
+		String sql = "select * from tarefas'"+idT.getidTarefa()+"';";
+		System.out.println(sql);
+		PreparedStatement prepareStatement;
+		
+		try {
+			prepareStatement = this.conn.prepareStatement(sql);
+			prepareStatement.executeUpdate();
+			prepareStatement.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-
-	
-	public List<Tarefas> listarTarefas() {
+	public List<Tarefas> listar() {
 		String sql = "select * from tarefas";
 		System.out.println(sql);
 	
