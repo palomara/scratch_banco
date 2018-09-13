@@ -16,6 +16,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import controller.JdbUtil;
+import controller.TarefaParticipantesJdbcDAO;
 import controller.TarefasJdbcDAO;
 import controller.UsuariosJdbcDAO;
 import model.Usuarios;
@@ -86,6 +87,7 @@ public class TelaUsuarios extends JFrame {
 					if(!txtNome.getText().isEmpty()&&!txtEmail.getText().isEmpty()&&btngSexo.getSelection() != null) {
 						Connection connection = JdbUtil.getConnection();
 						UsuariosJdbcDAO usuariosJdbcDao = new UsuariosJdbcDAO(connection);
+						TarefaParticipantesJdbcDAO tpJdbcDAO = new TarefaParticipantesJdbcDAO(connection);
 						
 						try {
 							usuario.setNome(txtNome.getText());

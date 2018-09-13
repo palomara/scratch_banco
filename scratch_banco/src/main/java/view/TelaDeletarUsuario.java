@@ -58,11 +58,11 @@ public class TelaDeletarUsuario extends JFrame {
 
 		paine.add(lblID);
 		paine.add(txtID);	
-		lblID.setBounds(10, 15, 45, 30);
-		txtID.setBounds(50, 15, 225, 30);
+		lblID.setBounds(10, 15, 80, 30);
+		txtID.setBounds(90, 15, 180, 30);
 		
 		paine.add(btnApagar);
-		btnApagar.setBounds(95, 80, 130, 30);
+		btnApagar.setBounds(95, 80, 120, 30);
 		
 		btnApagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -101,7 +101,7 @@ public class TelaDeletarUsuario extends JFrame {
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setSize(340, 200);
+		this.setSize(300, 170);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 	}

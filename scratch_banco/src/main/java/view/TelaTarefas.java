@@ -36,8 +36,7 @@ public class TelaTarefas extends JFrame {
 	JScrollPane spDescricao = new JScrollPane(txtDescricao);
 	
 	JButton btnSalvar = new JButton("Salvar");
-	JButton btnEditar = new JButton ("Editar");
-	JButton btnApagar = new JButton ("Apagar");
+	JButton btnLimpar = new JButton("Limpar");
 
 	public TelaTarefas() {
 		
@@ -47,26 +46,26 @@ public class TelaTarefas extends JFrame {
 
 		  paine.add(lblTitulo);
 		  paine.add(txtTitulo);
-		  lblTitulo.setBounds(10, 20, 50, 20);
-		  txtTitulo.setBounds(60, 20, 200, 20);
+		  lblTitulo.setBounds(10, 15, 45, 30);
+		  txtTitulo.setBounds(90, 15, 225, 30);
 
 		  paine.add(lblPrazo);
 		  paine.add(txtPrazo);
-		  lblPrazo.setBounds(10, 50, 95,20);
-		  txtPrazo.setBounds(60, 50, 100, 20);
+		  lblPrazo.setBounds(10,50,70,30);
+		  txtPrazo.setBounds(90, 50, 225, 30);
 
 		  paine.add(lblDescricao);
 		  paine.add(txtDescricao);
-		  lblDescricao.setBounds(10, 80, 70, 20);
-		  txtDescricao.setBounds(75, 80, 200, 100);
-
+		  lblDescricao.setBounds(10,85,70,30);
+		  txtDescricao.setBounds(90, 90, 225, 100);
+		  
 		 /* paine.add(lblDataInicio);
 		  paine.add(txtDataInicio);
 		  lblDataInicio.setBounds(10, 190, 95, 20);
 		  txtDataInicio.setBounds(80, 190, 100, 20);*/
 
 		  paine.add(btnSalvar);
-		  btnSalvar.setBounds(60, 230, 70, 60);
+		  btnSalvar.setBounds(60, 210, 130, 30);
 		  btnSalvar.addActionListener(new ActionListener() {
 			  
 			  @Override
@@ -88,59 +87,29 @@ public class TelaTarefas extends JFrame {
 
 				}
 			});
-
-		  paine.add(btnEditar);
-		  btnEditar.setBounds(160, 230, 70, 60);
-		  btnEditar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					try {
-						Tarefas a = new Tarefas();
-						a.setTitulo(txtTitulo.getText());
-						a.setPrazo(txtPrazo.getText());
-						a.setDescricao(txtDescricao.getText());
-
-						Connection connection = JdbUtil.getConnection();
-						TarefasJdbcDAO tarefasJdbcDao = new TarefasJdbcDAO(connection);
-
-						tarefasJdbcDao.alterar(a);
-
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-
-				}
-			});
 		  
-		  paine.add(btnApagar);
-		  btnApagar.setBounds(260, 230, 80, 60);
-		  btnApagar.addActionListener(new ActionListener() {
+		  paine.add(btnLimpar);
+			btnLimpar.setBounds(200, 210, 130, 30);
+			btnLimpar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						Tarefas tarefas = new Tarefas();
-						tarefas.setTitulo(txtTitulo.getText());
-						tarefas.setPrazo(txtPrazo.getText());
-						tarefas.setDescricao(txtDescricao.getText());
-
-						Connection connection = JdbUtil.getConnection();
-						TarefasJdbcDAO tarefasJdbcDao = new TarefasJdbcDAO(connection);
-
-						tarefasJdbcDao.deletar(tarefas);
-
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-
+					txtTitulo.setText(null);
+					txtPrazo.setText(null);
+					txtDescricao.setText(null);
+					
+					
 				}
 			});
 
 
 
 
-		  this.setLayout(null);
-		  this.setVisible(true);
-		  this.setSize(430, 360);
-		  this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		  this.setLocationRelativeTo(null);
+
+			    this.setLayout(null);
+				this.setResizable(false);
+				this.setVisible(true);
+				this.setSize(400, 280);
+				this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				this.setLocationRelativeTo(null);
 	}
 
 }

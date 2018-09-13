@@ -171,7 +171,8 @@ public class Principal extends JFrame {
 		menuTarefas.add(deleteTarefa = new JMenuItem ("Deletar"));
 		deleteTarefa.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				
+				TelaDeletarTarefa deletarTarefa = new TelaDeletarTarefa();
+
 			}
 		});
 		

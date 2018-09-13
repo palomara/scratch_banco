@@ -62,24 +62,43 @@ public class TarefasJdbcDAO {
 	
 
 	
-	public List<Tarefas> listarTarefas() {
+	public List<String> listarTarefas() {
 		String sql = "select * from tarefas";
 		System.out.println(sql);
 	
-	List<Tarefas> tarefas = new ArrayList<Tarefas>();
+	List<String> tarefas = new ArrayList<String>();
 	try {
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		ResultSet rs = prepareStatement.executeQuery();
 		while(rs.next()) {
-		//int id = rs.getInt("id");
-		String titulo = rs.getString("titulo");
-		System.out.println(titulo);
+			String idTarefa = rs.getString("idTarefa");
+			tarefas.add(idTarefa);
 		}
+		rs.close();
 		prepareStatement.close();
 	} 
 	catch (SQLException e) {
 		e.printStackTrace();
 	}
 	return tarefas;
+	}
+	
+	public String[] retornarDado(int idTarefa) throws SQLException {
+		String sql = "select * from tarefas where idTarefa = '" + idTarefa + "';";
+        System.out.println(sql);
+		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+		ResultSet rs = prepareStatement.executeQuery();
+		rs.next();
+		String titulo = rs.getString("titulo");
+		String prazo = rs.getString("prazo");
+		String descricao = rs.getString("descricao");
+
+		rs.close();
+		
+		String[] dados = {titulo, prazo, descricao};
+
+		prepareStatement.close();
+		
+		return dados;
 	}
 }

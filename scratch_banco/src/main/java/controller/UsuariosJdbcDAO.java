@@ -63,27 +63,57 @@ public class UsuariosJdbcDAO {
 			e.printStackTrace();
 		}
 	}
-	public List<Usuarios> listar() {
+	public List<String> listarUsuarios() {
 		String sql = "select * from usuarios";
 		System.out.println(sql);
 		
-		List<Usuarios> usuarios = new ArrayList<Usuarios>();
+		List<String> usuarios = new ArrayList<String>();
 		try {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 			ResultSet rs = prepareStatement.executeQuery();
 			while(rs.next()) {
-			//int id = rs.getInt("id");
-			String nome = rs.getString("nome");
-			System.out.println(nome);
+				String email = rs.getString("email");
+				usuarios.add(email);
 			}
+			rs.close();
 			prepareStatement.close();
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return usuarios;
 	}
 	
+	public int autenticarEmail(String email) throws SQLException {
+		String sql = "select * from usuarios where email = '" + email + "';";
+        System.out.println(sql);
+		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+		ResultSet rs = prepareStatement.executeQuery();
+		rs.next();
+		int resultado = rs.getRow();
+		rs.close();
+        prepareStatement.close();
+		return resultado;
+	}
 	
-	// list com id p/ usuários
+	
+	public String[] retornarDados(Object object) throws SQLException {
+		String sql = "select * from usuarios where email = '" + object + "';";
+        System.out.println(sql);
+		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+		ResultSet rs = prepareStatement.executeQuery();
+		rs.next();
+		String idUsuario = rs.getString("idUsuario");
+		String nome = rs.getString("nome");
+		String sexo = rs.getString("sexo");
+		
+		
+		String[] dadosUsuario = {nome, (String) object, sexo, idUsuario};
+		
+		rs.close();
+		prepareStatement.close();
+		
+		return dadosUsuario;
+	}
+	
+	
 }

@@ -30,5 +30,14 @@ public class App {
 
 	public static void main(String[] args) {
 		Principal windowCad = new Principal();
+		
+		try {
+			Connection connection = JdbUtil.getConnection();
+		
+		TarefasJdbcDAO tarefasDAO = new TarefasJdbcDAO(connection);
+		System.out.println(tarefasDAO.listarTarefas().size());
+		} catch (Exception ex) {
+			
+		}
 	}
 }

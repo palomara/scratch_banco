@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -23,6 +24,9 @@ public class TelaInfluencias extends JFrame {
 	  JLabel lblHumor = new JLabel("Humor:");
 	  JTextField txtHumor = new JTextField();
 	  
+	  JComboBox<String> humor = new JComboBox<String>();
+		
+	  
 	  JButton btnSalvar = new JButton("Salvar");
 	  JButton btnEditar = new JButton ("Editar");
 	  JButton btnApagar = new JButton ("Apagar");
@@ -35,12 +39,25 @@ public class TelaInfluencias extends JFrame {
 	  Container paine = this.getContentPane();
 
 	  paine.add(lblHumor);
-	  paine.add(txtHumor);
+	  //paine.add(txtHumor);
 	  lblHumor.setBounds(10, 20,60, 20);
-	  txtHumor.setBounds(70, 20, 120, 25);
+	  //txtHumor.setBounds(70, 20, 120, 25);
+	  
+	  	paine.add(humor);
+	  	humor.addItem("Selecionar");
+	  	humor.addItem("Feliz");
+	  	humor.addItem("Triste");
+	  	humor.addItem("Irritado");
+	  	humor.addItem("Neutro");
+	  	humor.addItem("Outro");
+	  	humor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+			});
+	  	humor.setBounds(70, 20, 120, 25);
 
 	  paine.add(btnSalvar);
-	  btnSalvar.setBounds(50, 60, 80, 50);
+	  btnSalvar.setBounds(70, 100, 130, 30);
 	  btnSalvar.addActionListener(new ActionListener() {
 		   @Override
 		   public void actionPerformed(ActionEvent e) {
