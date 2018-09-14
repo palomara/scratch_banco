@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 01-Set-2018 às 01:38
+-- Generation Time: 15-Set-2018 às 01:44
 -- Versão do servidor: 5.7.17
 -- PHP Version: 5.6.30
 
@@ -25,27 +25,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `tarefaparticipantes`
---
-
-CREATE TABLE `tarefaparticipantes` (
-  `idTP` int(11) NOT NULL,
-  `idUsuario` int(11) NOT NULL,
-  `idTarefa` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `tarefas`
 --
 
 CREATE TABLE `tarefas` (
   `idTarefa` int(11) NOT NULL,
-  `titulo` varchar(20) NOT NULL,
-  `prazo` varchar(15) NOT NULL,
-  `descricao` varchar(100) NOT NULL
+  `idUsuario` int(11) NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `prazo` varchar(20) NOT NULL,
+  `descricao` varchar(80) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `tarefas`
+--
+
+INSERT INTO `tarefas` (`idTarefa`, `idUsuario`, `titulo`, `prazo`, `descricao`) VALUES
+(1, 0, 'asdasd', 'fadfdaf', 'adads'),
+(2, 1, 'Corrigir CRUD', '15-09-2018', 'Corrigir CRUD 3B Info'),
+(3, 1, 'Programa em C#', '20-09-2018', 'adadasd');
 
 -- --------------------------------------------------------
 
@@ -56,19 +54,21 @@ CREATE TABLE `tarefas` (
 CREATE TABLE `usuarios` (
   `idUsuario` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `sexo` varchar(12) NOT NULL
+  `email` varchar(50) NOT NULL,
+  `sexo` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`idUsuario`, `nome`, `email`, `sexo`) VALUES
+(1, 'Paloma', 'paloma@email.com', 'Feminino'),
+(2, 'Jeferson', 'jerferson@email.com', 'Masculino');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `tarefaparticipantes`
---
-ALTER TABLE `tarefaparticipantes`
-  ADD PRIMARY KEY (`idTP`);
 
 --
 -- Indexes for table `tarefas`
@@ -87,20 +87,15 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT for table `tarefaparticipantes`
---
-ALTER TABLE `tarefaparticipantes`
-  MODIFY `idTP` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `tarefas`
 --
 ALTER TABLE `tarefas`
-  MODIFY `idTarefa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTarefa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

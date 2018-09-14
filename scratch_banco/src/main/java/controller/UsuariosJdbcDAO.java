@@ -19,7 +19,7 @@ public class UsuariosJdbcDAO {
 	}
 	
 	public void salvar (Usuarios c) throws SQLException {
-		String sql = "insert into usuarios (nome, email, sexo) values ('"+c.getNome()+"','"+c.getEmail()+"','"+c.getSexo()+"')";
+		String sql = "insert into usuarios (idUsuario, nome, email, sexo) values ('"+c.getidUsuario()+"','"+c.getNome()+"','"+c.getEmail()+"','"+c.getSexo()+"')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
@@ -83,6 +83,35 @@ public class UsuariosJdbcDAO {
 		return usuarios;
 	}
 	
+
+	public List<Usuarios> dadosUsuarios(){
+			String sql = "select * from usuarios";
+			System.out.println(sql);
+			
+			List<Usuarios> lista = new ArrayList<Usuarios>(); 
+			
+			try {
+				PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+				ResultSet rs = prepareStatement.executeQuery();
+				while(rs.next()) {
+					
+					Usuarios usuario = new Usuarios();
+					
+					usuario.setidUsuario(rs.getInt("idUsuario"));
+					usuario.setNome(rs.getString("nome"));
+					usuario.setEmail(rs.getString("email"));
+					usuario.setSexo(rs.getString("sexo"));
+					
+					lista.add(usuario);
+				}
+				
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+			
+		return lista;
+	}
+	
 	public int autenticarEmail(String email) throws SQLException {
 		String sql = "select * from usuarios where email = '" + email + "';";
         System.out.println(sql);
@@ -107,12 +136,12 @@ public class UsuariosJdbcDAO {
 		String sexo = rs.getString("sexo");
 		
 		
-		String[] dadosUsuario = {nome, (String) object, sexo, idUsuario};
+		String[] rdadosUsuario = {nome, (String) object, sexo, idUsuario};
 		
 		rs.close();
 		prepareStatement.close();
 		
-		return dadosUsuario;
+		return rdadosUsuario;
 	}
 	
 	

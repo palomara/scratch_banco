@@ -4,6 +4,7 @@ package model;
 
 public class Tarefas {
 	private Integer idTarefa;
+	private Integer idUsuario;
 	private String titulo;
 	private String prazo;
 	private String descricao;
@@ -16,6 +17,14 @@ public class Tarefas {
 	public void setidTarefa(Integer idTarefa) {
 		this.idTarefa = idTarefa;
 	}
+	
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
 	
 	public String getPrazo() {
 		return prazo;

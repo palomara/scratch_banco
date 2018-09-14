@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Tarefas;
+import model.Usuarios;
 
 
 
@@ -20,7 +21,7 @@ public class TarefasJdbcDAO {
 	}
 	
 	public void salvar (Tarefas t) throws SQLException {
-		String sql = "insert into tarefas (titulo, prazo, descricao) values ('"+t.getTitulo()+"','"+t.getPrazo()+"','"+t.getDescricao()+"')";
+		String sql = "insert into tarefas (idUsuario, titulo, prazo, descricao) values ('"+t.getIdUsuario()+"','"+t.getTitulo()+"','"+t.getPrazo()+"','"+t.getDescricao()+"')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
@@ -37,7 +38,7 @@ public class TarefasJdbcDAO {
 	}
 	
 	public void alterar (Tarefas a) throws SQLException {
-		String sql = "update tarefas set nome='"+a.getTitulo()+"',Prazo='"+a.getPrazo()+"',Descricao='"+a.getDescricao()+"';";
+		String sql = "update tarefas set titulo='"+a.getTitulo()+"',Prazo='"+a.getPrazo()+"',Descricao='"+a.getDescricao()+"',idTarefa='"+a.getidTarefa()+"';";
 		
 		System.out.println(sql);
 		PreparedStatement prepareStatement;
@@ -83,7 +84,7 @@ public class TarefasJdbcDAO {
 	return tarefas;
 	}
 	
-	public String[] retornarDado(int idTarefa) throws SQLException {
+	public String[] retornarDados(int idTarefa) throws SQLException {
 		String sql = "select * from tarefas where idTarefa = '" + idTarefa + "';";
         System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
@@ -101,4 +102,33 @@ public class TarefasJdbcDAO {
 		
 		return dados;
 	}
+	
+	public List<Tarefas> dadosTarefas(){
+		String sql = "select * from tarefas";
+		System.out.println(sql);
+		
+		List<Tarefas> lista_t = new ArrayList<Tarefas>(); 
+		
+		try {
+			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+			ResultSet rs = prepareStatement.executeQuery();
+			while(rs.next()) {
+				
+				Tarefas tf = new Tarefas();
+				
+				tf.setidTarefa(rs.getInt("idTarefa"));
+				tf.setTitulo(rs.getString("titulo"));
+				tf.setPrazo(rs.getString("prazo"));
+				tf.setDescricao(rs.getString("descricao"));
+				
+				lista_t.add(tf);
+			}
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	return lista_t;
+}
+
 }

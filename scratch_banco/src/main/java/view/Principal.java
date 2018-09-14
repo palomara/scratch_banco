@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -27,8 +29,15 @@ import model.Tarefas;
 
 public class Principal extends JFrame {
 
-	JDesktopPane windowCad = new JDesktopPane();
+	JDesktopPane windowCad = new JDesktopPane() {
 	
+		@Override
+	    protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        g.setColor(Color.YELLOW);
+	        g.fillRect(0, 0, getWidth(), getHeight());
+	    }
+	};
 	JMenuBar barraMenu = new JMenuBar();
 	
 	JMenu menuUsuarios = new JMenu ("Usuários");

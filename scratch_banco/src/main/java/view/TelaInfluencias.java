@@ -25,6 +25,7 @@ public class TelaInfluencias extends JFrame {
 	  JTextField txtHumor = new JTextField();
 	  
 	  JComboBox<String> humor = new JComboBox<String>();
+	
 		
 	  
 	  JButton btnSalvar = new JButton("Salvar");
@@ -55,17 +56,18 @@ public class TelaInfluencias extends JFrame {
 			}
 			});
 	  	humor.setBounds(70, 20, 120, 25);
+	  	
 
 	  paine.add(btnSalvar);
-	  btnSalvar.setBounds(70, 100, 130, 30);
+	  btnSalvar.setBounds(35, 100,  130, 30);
 	  btnSalvar.addActionListener(new ActionListener() {
 		   @Override
 		   public void actionPerformed(ActionEvent e) {
 			    try {
 			    Connection connection = JdbUtil.getConnection();
 			    InfluenciasJdbcDAO influenciasJdbDAO = new InfluenciasJdbcDAO (connection);
-		
-			    i.setHumor(txtHumor.getText());
+			    
+			   
 	
 		    influenciasJdbDAO.salvar(i);
 	

@@ -33,11 +33,21 @@ public class App {
 		
 		try {
 			Connection connection = JdbUtil.getConnection();
-		
 		TarefasJdbcDAO tarefasDAO = new TarefasJdbcDAO(connection);
 		System.out.println(tarefasDAO.listarTarefas().size());
 		} catch (Exception ex) {
 			
 		}
+		
+		
+		try {
+			Connection connection = JdbUtil.getConnection();
+		UsuariosJdbcDAO usuariosDAO = new UsuariosJdbcDAO(connection);
+		System.out.println(usuariosDAO.listarUsuarios().size());
+		} catch (Exception ex) {
+			
+		}
+		
+		
 	}
 }

@@ -21,8 +21,8 @@ import model.Usuarios;
 
 public class TelaEdicaoUsuario extends JFrame {
 	
-	JTextField txtID = new JTextField();
-	JLabel lblID = new JLabel("ID: ");
+	JLabel lblIdUsuario = new JLabel("ID:");
+	JTextField txtIdUsuario = new JTextField();
 	
 	JTextField txtNome = new JTextField();
 	JLabel lblNome = new JLabel("Nome: ");
@@ -38,7 +38,8 @@ public class TelaEdicaoUsuario extends JFrame {
 	ButtonGroup btngSexo = new ButtonGroup();
 	
 	JButton btnEditar = new JButton ("Editar");
-	
+	JButton btnLimpar = new JButton ("Limpar");
+
 	public TelaEdicaoUsuario() {
 		
 		super("Edição");
@@ -67,16 +68,20 @@ public class TelaEdicaoUsuario extends JFrame {
 		paine.add(rdbMasculino);
 		rdbMasculino.setBounds(190, 90, 100, 20);
 
-
+		paine.add(lblIdUsuario);
+		paine.add(txtIdUsuario);
+		lblIdUsuario.setBounds(10, 120, 70, 30);
+		txtIdUsuario.setBounds(90, 120, 80, 30);
 		
 		paine.add(btnEditar);
-		btnEditar.setBounds(95, 130, 130, 30);
+		btnEditar.setBounds(35, 180, 130, 30);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Usuarios c = new Usuarios();
 					c.setNome(txtNome.getText());
 					c.setEmail(txtEmail.getText());
+					c.setidUsuario(Integer.parseInt(txtIdUsuario.getText()));
 
 
 						Connection connection = JdbUtil.getConnection();
@@ -110,11 +115,24 @@ public class TelaEdicaoUsuario extends JFrame {
 			}
 		});
 
+		paine.add(btnLimpar);
+		btnLimpar.setBounds(180, 180, 130, 30);
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtIdUsuario.setText(null);
+				txtNome.setText(null);
+				txtEmail.setText(null);
+				rdbFeminino.setSelected(false);
+				rdbMasculino.setSelected(false);
+				
+				
+			}
+		});
 		
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setSize(340, 220);
+		this.setSize(340, 290);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		
