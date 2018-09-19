@@ -34,8 +34,8 @@ public class UsuariosJdbcDAO {
 		prepareStatement.close();
 	}
 	
-	public void alterar (Usuarios c) throws SQLException {
-		String sql = "update usuarios set nome='"+c.getNome()+"',email='"+c.getEmail()+"',sexo='"+c.getSexo()+"'";
+	public void alterar (Usuarios c, int id) throws SQLException {
+		String sql = "update usuarios set nome='"+c.getNome()+"',Email='"+c.getEmail()+"',Sexo='"+c.getSexo()+"'where usuarios.idUsuario='"+id+"';";
 		System.out.println(sql);
 		PreparedStatement prepareStatement;
 		
@@ -49,20 +49,6 @@ public class UsuariosJdbcDAO {
 		}
 	}
 	
-	public void selectUsuarios (Usuarios idU) throws SQLException {
-		String sql = "select * from tarefaparticipantes'"+idU.getidUsuario()+"';";
-		System.out.println(sql);
-		PreparedStatement prepareStatement;
-		
-		try {
-			prepareStatement = this.conn.prepareStatement(sql);
-			prepareStatement.executeUpdate();
-			prepareStatement.close();
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	public List<String> listarUsuarios() {
 		String sql = "select * from usuarios";
 		System.out.println(sql);
@@ -110,39 +96,5 @@ public class UsuariosJdbcDAO {
 			}
 			
 		return lista;
-	}
-	
-	public int autenticarEmail(String email) throws SQLException {
-		String sql = "select * from usuarios where email = '" + email + "';";
-        System.out.println(sql);
-		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
-		ResultSet rs = prepareStatement.executeQuery();
-		rs.next();
-		int resultado = rs.getRow();
-		rs.close();
-        prepareStatement.close();
-		return resultado;
-	}
-	
-	
-	public String[] retornarDados(Object object) throws SQLException {
-		String sql = "select * from usuarios where email = '" + object + "';";
-        System.out.println(sql);
-		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
-		ResultSet rs = prepareStatement.executeQuery();
-		rs.next();
-		String idUsuario = rs.getString("idUsuario");
-		String nome = rs.getString("nome");
-		String sexo = rs.getString("sexo");
-		
-		
-		String[] rdadosUsuario = {nome, (String) object, sexo, idUsuario};
-		
-		rs.close();
-		prepareStatement.close();
-		
-		return rdadosUsuario;
-	}
-	
-	
+	}	
 }

@@ -18,23 +18,23 @@ public class InfluenciasJdbcDAO {
 	}
 	
 	public void salvar(Influencias i) throws SQLException {
-		String sql = "insert into influencias (humor) values ('"+i.getHumor()+"')";
+		String sql = "insert into influencias (idUsuario, humor, saude, horasDormidas) values ('"+i.getIdUsuario()+"','"+i.getHumor()+"','"+i.getSaude()+"','"+i.getHorasDormidas()+"')";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
 	}
 	
-	public void deletar (Influencias influencias) throws SQLException {
-		String sql = "delete from influencias where influencias.id="+influencias+"";
+	public void deletar (int id) throws SQLException {
+		String sql = "delete from influencias where influencias.id="+id+"";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
 	}
 	
-	public void alterar (Influencias i) throws SQLException {
-	String sql = "update influencias set humor='"+i.getHumor()+"';";
+	public void alterar (Influencias i, int id) throws SQLException {
+	String sql = "update influencias set humor='"+i.getHumor()+"',saude='"+i.getSaude()+"',horasDormidas='"+i.getHorasDormidas()+"'where influencias.idInfluencia='"+id+"';";
 	
 	System.out.println(sql);
 	PreparedStatement prepareStatement;
@@ -49,25 +49,35 @@ public class InfluenciasJdbcDAO {
 	}
 	}
 	
-	public List<Influencias> listar() {
+	public List<Influencias> dadosInfluencias() {
 		String sql = "select * from influencias";
 		System.out.println(sql);
 		
-		List<Influencias> influencias = new ArrayList<Influencias>();
+		List<Influencias> lista_i = new ArrayList<Influencias>();
+		
 		try {
 			PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 			ResultSet rs = prepareStatement.executeQuery();
 			while(rs.next()) {
-			//int id = rs.getInt("id");
-			String humor = rs.getString("humor");
-			System.out.println(humor);
+			
+			Influencias i = new Influencias();
+			
+			i.setIdInfluencia(rs.getInt("idInfluencia"));
+			i.setIdUsuario(rs.getInt("idUsuario"));
+			i.setHumor(rs.getString("humor"));
+			i.setSaude(rs.getString("saude"));
+			i.setHorasDormidas(rs.getString("horasDormidas"));
+			
+			lista_i.add(i);
+				
+				
 			}
 			prepareStatement.close();
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return influencias;
+		return lista_i;
 	}
 	
 }

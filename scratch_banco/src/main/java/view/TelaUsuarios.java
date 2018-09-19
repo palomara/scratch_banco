@@ -17,16 +17,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import controller.JdbUtil;
-import controller.TarefaParticipantesJdbcDAO;
 import controller.TarefasJdbcDAO;
 import controller.UsuariosJdbcDAO;
 import model.Usuarios;
 
 public class TelaUsuarios extends JFrame {
 	
-	JLabel lblIdUsuario = new JLabel("ID:");
-	JTextField txtIdUsuario = new JTextField();
-	
+
 	JTextField txtNome = new JTextField();
 	JLabel nome = new JLabel("Nome:");
 
@@ -74,11 +71,6 @@ public class TelaUsuarios extends JFrame {
 		paine.add(rdbMasculino);
 		rdbMasculino.setBounds(190, 90, 100, 20);
 
-		paine.add(lblIdUsuario);
-		paine.add(txtIdUsuario);
-		lblIdUsuario.setBounds(10, 120, 70, 30);
-		txtIdUsuario.setBounds(90, 120, 80, 30);
-
 		paine.add(btnSalvar);
 		btnSalvar.setBounds(35, 180, 130, 30);
 		btnSalvar.addActionListener(new ActionListener() {
@@ -87,17 +79,16 @@ public class TelaUsuarios extends JFrame {
 					Usuarios usuario = new Usuarios();
 					usuario.setNome(txtNome.getText());
 					usuario.setEmail(txtEmail.getText());
-					usuario.setidUsuario(Integer.parseInt(txtIdUsuario.getText()));
+					
 				
 					if(!txtNome.getText().isEmpty()&&!txtEmail.getText().isEmpty()&&/*txtIdUsuario.getText().isEmpty()&&*/btngSexo.getSelection() != null) {
 						Connection connection = JdbUtil.getConnection();
 						UsuariosJdbcDAO usuariosJdbcDao = new UsuariosJdbcDAO(connection);
-						TarefaParticipantesJdbcDAO tpJdbcDAO = new TarefaParticipantesJdbcDAO(connection);
+		
 						
 						try {
 							usuario.setNome(txtNome.getText());
 							usuario.setEmail(txtEmail.getText());
-							usuario.setidUsuario(Integer.parseInt(txtIdUsuario.getText()));
 							
 							if (rdbFeminino.isSelected()) {
 								usuario.setSexo("Feminino");
@@ -131,7 +122,6 @@ public class TelaUsuarios extends JFrame {
 		btnLimpar.setBounds(180, 180, 130, 30);
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtIdUsuario.setText(null);
 				txtNome.setText(null);
 				txtEmail.setText(null);
 				rdbFeminino.setSelected(false);

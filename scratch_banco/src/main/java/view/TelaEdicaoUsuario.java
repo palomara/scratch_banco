@@ -5,9 +5,11 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,7 +24,7 @@ import model.Usuarios;
 public class TelaEdicaoUsuario extends JFrame {
 	
 	JLabel lblIdUsuario = new JLabel("ID:");
-	JTextField txtIdUsuario = new JTextField();
+	JComboBox selectUsuario = new JComboBox();
 	
 	JTextField txtNome = new JTextField();
 	JLabel lblNome = new JLabel("Nome: ");
@@ -69,9 +71,22 @@ public class TelaEdicaoUsuario extends JFrame {
 		rdbMasculino.setBounds(190, 90, 100, 20);
 
 		paine.add(lblIdUsuario);
-		paine.add(txtIdUsuario);
+		paine.add(selectUsuario);
 		lblIdUsuario.setBounds(10, 120, 70, 30);
-		txtIdUsuario.setBounds(90, 120, 80, 30);
+		selectUsuario.setBounds(90, 120, 80, 30);
+		try {
+			 Connection connection = JdbUtil.getConnection();
+			 UsuariosJdbcDAO user1 = new UsuariosJdbcDAO(connection);
+			 
+			 List<Usuarios> user =  user1.dadosUsuarios();
+			 for(int i=0; i<user.size(); i++) {
+				 selectUsuario.addItem(user.get(i).getidUsuario());					 
+			 }
+			 
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		
 		paine.add(btnEditar);
 		btnEditar.setBounds(35, 180, 130, 30);
@@ -81,8 +96,7 @@ public class TelaEdicaoUsuario extends JFrame {
 					Usuarios c = new Usuarios();
 					c.setNome(txtNome.getText());
 					c.setEmail(txtEmail.getText());
-					c.setidUsuario(Integer.parseInt(txtIdUsuario.getText()));
-
+					int id = Integer.parseInt(selectUsuario.getSelectedItem().toString());
 
 						Connection connection = JdbUtil.getConnection();
 						UsuariosJdbcDAO usuariosJdbcDao = new UsuariosJdbcDAO(connection);
@@ -97,7 +111,7 @@ public class TelaEdicaoUsuario extends JFrame {
 								c.setSexo("Masculino");
 							}
 
-							usuariosJdbcDao.alterar(c);
+							usuariosJdbcDao.alterar(c, id);
 							JOptionPane.showMessageDialog(new JFrame(), "Edição efetuada");
 						} catch(Exception ex) {
 							JOptionPane.showMessageDialog(new JFrame(), "Edição não efetuada");
@@ -119,7 +133,6 @@ public class TelaEdicaoUsuario extends JFrame {
 		btnLimpar.setBounds(180, 180, 130, 30);
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtIdUsuario.setText(null);
 				txtNome.setText(null);
 				txtEmail.setText(null);
 				rdbFeminino.setSelected(false);

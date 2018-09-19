@@ -1,12 +1,15 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,19 +24,8 @@ import model.Tarefas;
 public class TelaDeletarTarefa extends JFrame {
 
 	
-	JTextField txtID = new JTextField();
 	JLabel lblID = new JLabel("ID Tarefa: ");
-	
-	JLabel lblTitulo = new JLabel("Título:");
-	JTextField txtTitulo = new JTextField();
-	
-	JLabel lblPrazo = new JLabel("Prazo:");
-	JTextField txtPrazo = new JTextField();
-	
-	JLabel lblDescricao = new JLabel("Descrição:");
-
-	JTextArea txtDescricao = new JTextArea();
-	JScrollPane spDescricao = new JScrollPane(txtDescricao);
+	JComboBox selectTarefa = new JComboBox();
 	
 	JButton btnApagar = new JButton ("Apagar");
 
@@ -44,27 +36,36 @@ public class TelaDeletarTarefa extends JFrame {
 		
 		Container paine = this.getContentPane();
 		
+		getContentPane().setBackground(Color.lightGray); 
+		
 		paine.add(lblID);
-		paine.add(txtID);	
+		paine.add(selectTarefa);	
 		lblID.setBounds(10, 15, 80, 30);
-		txtID.setBounds(90, 15, 180, 30);
+		selectTarefa.setBounds(90, 15, 180, 30);
+		try {
+			 Connection connection = JdbUtil.getConnection();
+			 TarefasJdbcDAO tarefa1 = new TarefasJdbcDAO(connection);
+			 
+			 List<Tarefas> tf1 =  tarefa1.dadosTarefas();
+			 for(int i=0; i< tf1.size(); i++) {
+				 selectTarefa.addItem(tf1.get(i).getIdTarefa());					 
+			 }	 
+		}	catch(Exception e){
+			e.printStackTrace();
+			}
 		
 		paine.add(btnApagar);
 		btnApagar.setBounds(95, 80, 120, 30);
 		btnApagar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						Tarefas a = new Tarefas();
-						a.setTitulo(txtTitulo.getText());
-						a.setPrazo(txtPrazo.getText());
-						a.setDescricao(txtDescricao.getText());
-						int id = Integer.parseInt(txtID.getText());
-					
+						int id = Integer.parseInt(selectTarefa.getSelectedItem().toString());
+						
 						
 						Connection connection = JdbUtil.getConnection();
 						TarefasJdbcDAO tarefasJdbcDao = new TarefasJdbcDAO(connection);
 
-						tarefasJdbcDao.deletar(a);
+						tarefasJdbcDao.deletar(id);
 						JOptionPane.showMessageDialog(new JFrame(), "Tarefa apagada");
 						
 						for (int i=0; i < getContentPane().getComponentCount(); i++) {
@@ -88,7 +89,8 @@ public class TelaDeletarTarefa extends JFrame {
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setSize(300, 170);
+		this.setVisible(true);
+		this.setSize(300, 130);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 	}

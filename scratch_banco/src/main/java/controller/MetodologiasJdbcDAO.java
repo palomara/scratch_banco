@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Metodologias;
+import model.Tarefas;
 
 
 public class MetodologiasJdbcDAO {
@@ -19,23 +20,23 @@ public class MetodologiasJdbcDAO {
 	}
 	
 	public void salvar (Metodologias m) throws SQLException {
-	String sql = "insert into metodologias (metodo) values ('"+m.getMetodo()+"')";
+	String sql = "insert into metodologias (metodo, idTarefa) values ('"+m.getMetodo()+"','"+m.getIdTarefa()+"')";
 	System.out.println(sql);
 	PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 	prepareStatement.executeUpdate();
 	prepareStatement.close();	
 	}
 	
-	public void deletar (Metodologias metodologias) throws SQLException {
-		String sql = "delete from metodologias where metodologias.idMetodologia"+metodologias+"";
+	public void deletar (int id) throws SQLException {
+		String sql = "delete from metodologias where metodologias.idMetodologia"+id+"";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
 	}
 	
-	public void alterar (Metodologias m) throws SQLException {
-		String sql = "update metodologias set metodo='"+m.getMetodo()+"'";
+	public void alterar (Metodologias m, int id) throws SQLException {
+		String sql = "update tarefas set metodo='"+m.getMetodo()+"'where metodologias.idMetodo='"+id+"';";
 		
 		System.out.println(sql);
 		PreparedStatement prepareStatement;
@@ -49,25 +50,30 @@ public class MetodologiasJdbcDAO {
 			e.printStackTrace();
 		}
 	}
-	public List<Metodologias> listar() {
+	public List<Metodologias> listarMetodologias() {
 		String sql = "select * from metodologias";
 		System.out.println(sql);
 	
-	List<Metodologias> metodologias = new ArrayList<Metodologias>();
+	List<Metodologias> lista_m = new ArrayList<Metodologias>();
 	try {
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		ResultSet rs = prepareStatement.executeQuery();
 		while(rs.next()) {
-		//int id = rs.getInt("id");
-		String metodo = rs.getString("metodo");
-		System.out.println(metodo);
+			
+			Metodologias m = new Metodologias();
+			
+			m.setIdTarefa(rs.getInt("idMetodologia"));
+			m.setIdTarefa(rs.getInt("idTarefa"));
+			m.setMetodo(rs.getString("metodo"));
+
+			
+			lista_m.add(m);
 		}
-		prepareStatement.close();
-	} 
+	}
 	catch (SQLException e) {
 		e.printStackTrace();
 	}
-	return metodologias;
+	return lista_m;
 	}
 }
 

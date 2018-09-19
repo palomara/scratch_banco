@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -23,7 +25,7 @@ import model.Usuarios;
 public class TelaEdicaoTarefa extends JFrame {
 
 	JLabel lblTarefa= new JLabel ("Tarefa:");
-	JComboBox selecttarefa = new JComboBox();
+	JComboBox selectTarefa = new JComboBox();
 	
 	JLabel lblTitulo = new JLabel("Título:");
 	JTextField txtTitulo = new JTextField();
@@ -45,18 +47,19 @@ public TelaEdicaoTarefa() {
 		
 		Container paine = this.getContentPane();
 		
-		  paine.add(selecttarefa);
+		getContentPane().setBackground(Color.lightGray);
+		
+		  paine.add(selectTarefa);
 		  paine.add(lblTarefa);
-		  selecttarefa.addItem("");
 		  lblTarefa.setBounds(10, 15, 70, 30);
-		  selecttarefa.setBounds(90, 15, 120, 25);
+		  selectTarefa.setBounds(90, 15, 120, 25);
 		  try {
 				 Connection connection = JdbUtil.getConnection();
 				 TarefasJdbcDAO tarefa1 = new TarefasJdbcDAO(connection);
 				 
 				 List<Tarefas> tf1 =  tarefa1.dadosTarefas();
 				 for(int i=0; i< tf1.size(); i++) {
-					 selecttarefa.addItem(tf1.get(i).getidTarefa());					 
+					 selectTarefa.addItem(tf1.get(i).getIdTarefa());					 
 				 }
 				 
 		}catch(Exception e){
@@ -79,7 +82,7 @@ public TelaEdicaoTarefa() {
 		  txtDescricao.setBounds(90, 130, 225, 100);
 		  
 		  paine.add(btnEditar);
-		  btnEditar.setBounds(60, 280, 130, 30);
+		  btnEditar.setBounds(30, 250, 130, 30);
 		  btnEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -87,22 +90,24 @@ public TelaEdicaoTarefa() {
 						a.setTitulo(txtTitulo.getText());
 						a.setPrazo(txtPrazo.getText());
 						a.setDescricao(txtDescricao.getText());
-						a.setIdUsuario(selecttarefa.getSelectedIndex());
+						int id = Integer.parseInt(selectTarefa.getSelectedItem().toString());
 
 						Connection connection = JdbUtil.getConnection();
 						TarefasJdbcDAO tarefasJdbcDao = new TarefasJdbcDAO(connection);
 
-						tarefasJdbcDao.alterar(a);
+						tarefasJdbcDao.alterar(a, id);
+						JOptionPane.showMessageDialog(new JFrame(), "Edição efetuada");
 
 					} catch (Exception ex) {
 						ex.printStackTrace();
+						JOptionPane.showMessageDialog(new JFrame(), "Edição não efetuada");
 					}
 
 				}
 			});
 		  
 		  paine.add(btnLimpar);
-			btnLimpar.setBounds(200, 280, 130, 30);
+			btnLimpar.setBounds(180, 250, 130, 30);
 			btnLimpar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					txtTitulo.setText(null);
@@ -117,7 +122,7 @@ public TelaEdicaoTarefa() {
 			this.setLayout(null);
 			this.setResizable(false);
 			this.setVisible(true);
-			this.setSize(500, 380);
+			this.setSize(350, 330);
 			this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 			this.setLocationRelativeTo(null);
 		  

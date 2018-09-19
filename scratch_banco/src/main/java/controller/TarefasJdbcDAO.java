@@ -28,40 +28,23 @@ public class TarefasJdbcDAO {
 		prepareStatement.close();
 	}
 	
-	public void deletar (Tarefas tarefas) throws SQLException {
+	public void deletar (int id) throws SQLException {
 		
-		String sql = "delete from tarefas where tarefas.idTarefa="+tarefas+"";
+		String sql = "delete from tarefas where tarefas.idTarefa="+id+"";
 		System.out.println(sql);
 		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
 	}
 	
-	public void alterar (Tarefas a) throws SQLException {
-		String sql = "update tarefas set titulo='"+a.getTitulo()+"',Prazo='"+a.getPrazo()+"',Descricao='"+a.getDescricao()+"',idTarefa='"+a.getidTarefa()+"';";
-		
+	public void alterar (Tarefas a, int id) throws SQLException {
+		String sql ="update tarefas set titulo='"+a.getTitulo()+"',Prazo='"+a.getPrazo()+"',Descricao='"+a.getDescricao()+"'where tarefas.idTarefa='"+id+"';";
 		System.out.println(sql);
-		PreparedStatement prepareStatement;
-		
-		try {
-			prepareStatement = this.conn.prepareStatement(sql);
-			prepareStatement.executeUpdate();
-			prepareStatement.close();
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
+		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
+		prepareStatement.executeUpdate();
+		prepareStatement.close();
 	}
 	
-	public void select(int id) throws SQLException{
-		String sql = "select * from tarefas where idTarefa = "+id;	
-		PreparedStatement ps = this.conn.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-
-		ps.close();
-	}
-	
-
 	
 	public List<String> listarTarefas() {
 		String sql = "select * from tarefas";
@@ -84,25 +67,7 @@ public class TarefasJdbcDAO {
 	return tarefas;
 	}
 	
-	public String[] retornarDados(int idTarefa) throws SQLException {
-		String sql = "select * from tarefas where idTarefa = '" + idTarefa + "';";
-        System.out.println(sql);
-		PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
-		ResultSet rs = prepareStatement.executeQuery();
-		rs.next();
-		String titulo = rs.getString("titulo");
-		String prazo = rs.getString("prazo");
-		String descricao = rs.getString("descricao");
 
-		rs.close();
-		
-		String[] dados = {titulo, prazo, descricao};
-
-		prepareStatement.close();
-		
-		return dados;
-	}
-	
 	public List<Tarefas> dadosTarefas(){
 		String sql = "select * from tarefas";
 		System.out.println(sql);
@@ -116,10 +81,11 @@ public class TarefasJdbcDAO {
 				
 				Tarefas tf = new Tarefas();
 				
-				tf.setidTarefa(rs.getInt("idTarefa"));
+				tf.setIdTarefa(rs.getInt("idTarefa"));
 				tf.setTitulo(rs.getString("titulo"));
 				tf.setPrazo(rs.getString("prazo"));
 				tf.setDescricao(rs.getString("descricao"));
+				tf.setIdUsuario(rs.getInt("idUsuario"));
 				
 				lista_t.add(tf);
 			}

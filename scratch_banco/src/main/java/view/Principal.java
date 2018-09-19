@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -20,30 +21,30 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import controller.JdbUtil;
 import controller.UsuariosJdbcDAO;
-import model.TarefaParticipantes;
 import model.Tarefas;
 
 public class Principal extends JFrame {
 
-	JDesktopPane windowCad = new JDesktopPane() {
+	JDesktopPane windowCad = new JDesktopPane();
 	
-		@Override
-	    protected void paintComponent(Graphics g) {
-	        super.paintComponent(g);
-	        g.setColor(Color.YELLOW);
-	        g.fillRect(0, 0, getWidth(), getHeight());
-	    }
-	};
+	TitledBorder titleBorderP;
+	
+	JPanel panel = new JPanel();
+	
 	JMenuBar barraMenu = new JMenuBar();
 	
 	JMenu menuUsuarios = new JMenu ("Usuários");
 	JMenu menuTarefas = new JMenu ("Tarefas");
 	JMenu menuMetodologias = new JMenu ("Metodologias");
 	JMenu menuInfluencias = new JMenu ("Influencias");
+	JMenu menuConsulta = new JMenu ("Consulta");
 
 	JMenuItem cadUsuario;
 	JMenuItem cadTarefa;
@@ -83,7 +84,6 @@ public class Principal extends JFrame {
 
 		
 		public void paintComponent(Graphics g){
-
 			try {
 				super.paintComponents(g);
 				Image img = ImageIO.read(new java.net.URL(
@@ -100,10 +100,11 @@ public class Principal extends JFrame {
 
 				e.printStackTrace();
 			}
+			
 		}
 	};
 	
-	windowCad.setBackground(Color.WHITE);
+	windowCad.setBackground(Color.YELLOW);
 		
 		this.setJMenuBar(barraMenu);
 		
@@ -111,8 +112,13 @@ public class Principal extends JFrame {
 		barraMenu.add(menuTarefas);
 		barraMenu.add(menuMetodologias);
 		barraMenu.add(menuInfluencias);
+		barraMenu.add(menuConsulta);
 		
-		
+		menuUsuarios.setIcon(new ImageIcon(this.getClass().getResource("imagens/plus.png")));
+		menuTarefas.setIcon(new ImageIcon(this.getClass().getResource("imagens/notes.png")));
+		menuMetodologias.setIcon(new ImageIcon(this.getClass().getResource("imagens/analysis.png")));
+		menuInfluencias.setIcon(new ImageIcon(this.getClass().getResource("imagens/smile.png")));
+		menuConsulta.setIcon(new ImageIcon(this.getClass().getResource("imagens/search.png")));
 		
 		menuUsuarios.add(cadUsuario = new JMenuItem ("Cadastrar"));
 		cadUsuario.addActionListener(new ActionListener () {
@@ -159,14 +165,14 @@ public class Principal extends JFrame {
 		menuMetodologias.add(editMetodologia = new JMenuItem ("Editar dados"));
 		editMetodologia.addActionListener(new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
-			
+			TelaEdicaoMetodologias editarMetodologia = new TelaEdicaoMetodologias();
 			}
 		});
 		
 		menuInfluencias.add(editInfluencia = new JMenuItem ("Editar dados"));
 		editInfluencia.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				
+				TelaEditarInfluencia editarInfluencia = new TelaEditarInfluencia();
 			}
 		});
 		
@@ -188,70 +194,30 @@ public class Principal extends JFrame {
 		menuMetodologias.add(deleteMetodologia = new JMenuItem ("Deletar"));
 		deleteMetodologia.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				
+				TelaDeletarMetodologia deletarMetodologia = new TelaDeletarMetodologia();
 			}
 		});
 		
 		menuInfluencias.add(deleteInfluencia = new JMenuItem ("Deletar"));
 		deleteInfluencia.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				
+			TelaDeletarInfluencia deletarInfluencia = new TelaDeletarInfluencia();	
 			}
 		});
 		
-		/*paine.add(lblID);
-		paine.add(txbID);
-		lblID.setBounds(10, 20, 80, 80);
-		txbID.setBounds(70, 50, 85, 20);
-		
-		paine.add(lblTitulo);
-		paine.add(txbTitulo);
-		lblTitulo.setBounds(10, 40, 80, 80);
-		txbTitulo.setBounds(70, 70, 100, 20);
-		
-		paine.add(btnSalvar);
-		btnSalvar.setBounds(30, 110, 120, 40);*/
-		
-		paine.add(btnPesquisar);
-		btnPesquisar.setBounds(30, 110, 120, 40);
-		
-		btnPesquisar.addActionListener(new ActionListener() {
-
-			@Override
-			
+		menuConsulta.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					
-					TarefaParticipantes TP = new TarefaParticipantes();
-					
-					
-					Connection connection = JdbUtil.getConnection();
-					UsuariosJdbcDAO usuariosJdbcDAselectTarefasO = new UsuariosJdbcDAO(connection);
-					
-					/*if(selectUsuarios()==true && selectTarefas()==true ) {
-						String sql = "insert into tarefaparticipantes (idUsuario, idTarefa) values ()";
-						System.out.print(sql);
-						PreparedStatement prepareStatement = this.conn.prepareStatement(sql);
-						prepareStatement.executeUpdate();
-						prepareStatement.close();
-					}*/
-					
-					dispose();
-				}
-				
-				catch(Exception v){
-				     v.printStackTrace();     
-				     }	
-			}		
+				TelaConsulta telaConsulta = new TelaConsulta();
+			}
 		});
+		
 		
 		
 		this.setVisible(true);
 		this.setSize(600, 400);
-		this.setLayout(null);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.getContentPane().add(windowCad);
 		
 	}
 }
